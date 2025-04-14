@@ -1,0 +1,81 @@
+/* Reset một số mặc định */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f6f9;
+  }
+  
+  /* Navbar */
+  .navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #ffffff;
+    padding: 15px 30px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+    margin: 12px;
+  }
+  
+  /* Logo */
+  .logo {
+    height: 50px;
+  }
+  
+  /* Ô tìm kiếm */
+  .search-box {
+    flex-grow: 1;
+    max-width: 300px;
+    margin: 0 15px;
+    padding: 10px 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+  }
+  
+  /* Nút tìm kiếm */
+  .search-btn {
+    background-color: #1d4ed8;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+
+  }
+  
+  .search-btn:hover {
+    background-color: #1e40af;
+  }
+  
+  /* Link đăng nhập */
+  .Dnh {
+    text-decoration: none;
+    color: #1d4ed8;
+    font-weight: bold;
+    padding: 8px 16px;
+    border: 1px solid #1d4ed8;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+  }
+  
+  .Dnh:hover {
+    background-color: #1d4ed8;
+    color: white;
+  }
+  
+  /* Table container (nếu bạn dùng sau này) */
+  table {
+    margin: 30px auto;
+    width: 80%;
+    border-collapse: collapse;
+    background-color: white;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  
