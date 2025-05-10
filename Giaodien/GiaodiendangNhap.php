@@ -10,9 +10,9 @@
     <div class="login-container">
     <h1>Tùy Chọn Đăng Nhập</h1>
     <p >Bạn Là Nhà Tuyển Dụng?</p>
-        <a href="../Dangnhap.php">Đăng nhập Người dùng</a>
+        <a href="../DK_DN/Dangnhap.php">Đăng nhập Người dùng</a>
     <p>Bạn Là Nhà Tuyển Dụng?</p>
-        <a href="../Dangnhapntd.php">Đăng Nhập Nhà Tuyển Dụng</a>
+        <a href="../DK_DN/Dangnhapntd.php">Đăng Nhập Nhà Tuyển Dụng</a>
 </div>
     </body>
 </html>

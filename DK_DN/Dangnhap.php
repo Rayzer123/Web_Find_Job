@@ -24,7 +24,7 @@ if (isset($_POST['dnh'])) {
 <head>
     <meta charset="UTF-8">
     <title>Đăng nhập hệ thống</title>
-    <link rel="stylesheet" href="dangnhap.css">
+    <link rel="stylesheet" href="Dangnhap.css">
 </head>
 <body>
     <div class="container">
@@ -43,7 +43,7 @@ if (isset($_POST['dnh'])) {
             <hr>
 
             <button type="button" class="btn-google">
-                <img src="./img/logo_gg.jpg" alt="Google logo">
+                <img src="../img/logo_gg.jpg" alt="Google logo">
                 Đăng nhập với Google
             </button>
 
