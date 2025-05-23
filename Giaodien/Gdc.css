@@ -1,81 +1,158 @@
 /* Reset một số mặc định */
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
-  
-  body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f6f9;
-  }
-  
-  /* Navbar */
-  .navbar {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    background-color: #ffffff;
-    padding: 15px 30px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.05);
-    margin: 12px;
-  }
-  
-  /* Logo */
-  .logo {
-    height: 50px;
-  }
-  
-  /* Ô tìm kiếm */
-  .search-box {
-    flex-grow: 1;
-    max-width: 300px;
-    margin: 0 15px;
-    padding: 10px 12px;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-  }
-  
-  /* Nút tìm kiếm */
-  .search-btn {
-    background-color: #1d4ed8;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
-  }
-  
-  .search-btn:hover {
-    background-color: #1e40af;
-  }
-  
-  /* Link đăng nhập */
-  .Dnh {
-    text-decoration: none;
-    color: #1d4ed8;
-    font-weight: bold;
-    padding: 8px 16px;
-    border: 1px solid #1d4ed8;
-    border-radius: 6px;
-    transition: all 0.3s ease;
-  }
-  
-  .Dnh:hover {
-    background-color: #1d4ed8;
-    color: white;
-  }
-  
-  /* Table container (nếu bạn dùng sau này) */
-  table {
-    margin: 30px auto;
-    width: 80%;
-    border-collapse: collapse;
-    background-color: white;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-    border-radius: 8px;
-    overflow: hidden;
-  }
-  
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f6f9;
+}
+
+/* Navbar */
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #ffffff;
+  padding: 15px 30px;
+  box-shadow: 0px 5px 5px 0px rgba(0, 0, 0, 0.75);
+  -webkit-box-shadow: 0px 5px 5px 0px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 0px 5px 5px 0px rgba(0, 0, 0, 0.75);
+  margin: 12px;
+  z-index: 2;
+  position: absolute;
+  width: 98%;
+}
+
+/* Logo */
+.logo {
+  height: 50px;
+}
+
+/* Ô tìm kiếm */
+.search-box {
+  flex-grow: 1;
+  max-width: 300px;
+  margin: 0 15px;
+  padding: 10px 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+/* Nút tìm kiếm */
+.search-btn {
+  background-color: #1d4ed8;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.search-btn:hover {
+  background-color: #1e40af;
+}
+
+/* Link đăng nhập */
+.Dnh {
+  text-decoration: none;
+  color: #1d4ed8;
+  font-weight: bold;
+  padding: 8px 16px;
+  border: 1px solid #1d4ed8;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+}
+
+.Dnh:hover {
+  background-color: #1d4ed8;
+  color: white;
+}
+
+/* Table container (nếu bạn dùng sau này) */
+table {
+  margin: 30px auto;
+  width: 80%;
+  border-collapse: collapse;
+  background-color: white;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.test {
+  width: 200px;
+  height: 200px;
+  background-color: black;
+}
+
+/* Hình nền ở phần đầu */
+.hinhnen {
+  width: 100%;
+  height: 70%;
+  background-image: url("../img/background_head_computer_coffe.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 0;
+}
+/*Noi dung thong tin gioi thieu*/
+.infor3381 {
+  position: absolute;
+  z-index: 2;
+  width: 99%;
+  margin: 0 auto;
+  height: 2600px;
+  top: 470px;
+  left: 50%;
+  transform: translateX(-50%);
+  box-shadow: 2px -5px 5px 0px rgba(0, 0, 0, 0.75);
+  -webkit-box-shadow: 2px -5px 5px 0px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 2px -5px 5px 0px rgba(0, 0, 0, 0.75);
+  background-color: #ffffff;
+}
+#h14928 {
+  text-align: center;
+  margin-top: 70px;
+}
+/*Phan gioi thieu*/
+.phankhung{
+	position: absolute;
+	z-index: 2;width: 100%;
+	height: 550px;
+	background-color: #000033;
+	margin-top: 2200px;
+	display:flex;
+}
+.firstcol1{ 
+	padding: 60px; 
+	list-style-type: none;
+	color:gray;
+}
+.secondcol2{
+	text-decoration:none;
+	margin-left: 70px;
+	padding: 65px;
+	list-style-type: none;
+	color:gray;
+}
+.thirtcol3{
+	text-decoration:none;
+	margin-left:65px;
+	padding:60px;
+	list-style-type: none;
+	color:gray;
+}
+.lastcol4{
+	text-decoration:none;
+	list-style-type: none;
+	padding:60px;
+	color:gray;
+	gap: 0px;
+}
