@@ -4,7 +4,7 @@ if(isset($_POST['register'])){
     $name = $_POST['name'];
     $email = $_POST['email'];
     $pass = password_hash($_POST['password'], PASSWORD_BCRYPT);
-    $sql = "INSERT INTO employers (name, email, password) VALUES ('$name', '$email', '$pass')";
+    $sql = "INSERT INTO employers (employer_name, email, password) VALUES ('$name', '$email', '$pass')";
     if(mysqli_query($conn, $sql)){
         echo "<script>alert('Đăng ký thành công!'); location='employer_login.php';</script>";
     } else {
