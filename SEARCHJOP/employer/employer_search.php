@@ -127,22 +127,22 @@
         <img src="https://hoitinhoc.binhdinh.gov.vn/wp-content/uploads/2019/04/image001.png" width="60px"  border-radius="10px"; alt="ưeblogo">
     </div>
     <ul class="menu">
-        <li><a href="">Công việc của tôi</a></li>
-        <li><a href="#">Đăng Tuyển dụng</a></li>
+        <li><a href="employer_jobs">Công việc của tôi</a></li>
+        <li><a href="employer_post_job.php">Đăng Tuyển dụng</a></li>
         <li class="active"><a href="#">Tìm kiếm tài năng</a></li>
-        <li><a href="#">Thư xin việc đã nhận</a></li>
-        <li><a href="#">Tài năng đã lưu</a></li>
-        <li><a href="#">Quản lý tìm kiếm tài năng</a></li>
+        <a href="employer_applicants.php">Thư xin việc đã nhận</a>
+        <li><a href="employer_saved.php">Tài năng đã lưu</a></li>
+        <li><a href="employer_alerts.php">Quản lý tìm kiếm tài năng</a></li>
     </ul>
     <div class="blog">
         <div><b>Blog</b></div>
-        <div><a href="#" style="color:#1976d2;text-decoration:none;">Cẩm nang Tuyển dụng</a></div>
-        <div><a href="#" style="color:#1976d2;text-decoration:none;">Phỏng vấn nhiều vòng...</a></div>
+        <div><a href="employer_handbook.php" style="color:#1976d2;text-decoration:none;">Cẩm nang Tuyển dụng</a></div>
+        <div><a href="employer_interview.php" style="color:#1976d2;text-decoration:none;">Phỏng vấn nhiều vòng...</a></div>
     </div>
     <div class="support">
-        <div><a href="#" style="color:#1976d2;text-decoration:none;">Hỗ trợ</a></div>
-        <div><a href="#" style="color:#1976d2;text-decoration:none;">Tổ chức</a></div>
-        <div><a href="#" style="color:#1976d2;text-decoration:none;">Cài đặt</a></div>
+        <div><a href="employer_help.php" style="color:#1976d2;text-decoration:none;">Hỗ trợ</a></div>
+        <div><a href="employer_organization.php" style="color:#1976d2;text-decoration:none;">Tổ chức</a></div>
+        <div><a href="employer_settings.php" style="color:#1976d2;text-decoration:none;">Cài đặt</a></div>
     </div>
     <div class="bottom-user">
         <span style="color: #1976d2;">vô danh</span>
