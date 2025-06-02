@@ -83,10 +83,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 <a class="nav-link" href="employer_alerts.php"><i class="bi bi-bell"></i> Quản lý tìm kiếm tài năng</a>
                 <div class="ps-2 pt-2 pb-1 text-secondary small">Blog</div>
                 <a class="nav-link" href="employer_handbook.php"><i class="bi bi-journal-richtext"></i> Cẩm nang Tuyển dụng</a>
-                <a class="nav-link" href="#"><i class="bi bi-chat"></i> Phỏng vấn nhiều vòng...</a>
+                <a class="nav-link" href="employer_interview.php"><i class="bi bi-chat"></i> Phỏng vấn nhiều vòng...</a>
                 <div class="ps-2 pt-2 pb-1 text-secondary small"> </div>
-                <a class="nav-link" href="#"><i class="bi bi-question-circle"></i> Hỗ trợ</a>
-                <a class="nav-link" href="#"><i class="bi bi-people"></i> Tổ chức</a>
+                <a class="nav-link" href="employer_help.php"><i class="bi bi-question-circle"></i> Hỗ trợ</a>
+                <a class="nav-link" href="employer_organization.php"><i class="bi bi-people"></i> Tổ chức</a>
                 <a class="nav-link" href="employer_settings.php"><i class="bi bi-gear"></i> Cài đặt</a>
             </nav>
             <div class="sidebar-bottom">
