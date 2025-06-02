@@ -108,9 +108,10 @@ if (!isset($_SESSION['employer_id'])) {
 
             <div class="col-2 sidebar px-0 d-flex flex-column position-relative">
                 <div class="pt-4 ps-3 mb-2">
-                    <img src="https://hoitinhoc.binhdinh.gov.vn/wp-content/uploads/2019/04/image001.png" height="60"
-                        width="60" alt="Logo">
-                </div>
+               <a class="navbar-brand fw-bold d-flex align-items-center" href="../index.php">
+                    <img src="https://hoitinhoc.binhdinh.gov.vn/wp-content/uploads/2019/04/image001.png" class="me-2" alt="Logo" width="60" height="60"> Web Tìm Việc
+                </a>
+            </div>
                 <nav class="nav flex-column">
                     <a class="nav-link" href="employer_dashboard.php"><i class="bi bi-person"></i> My Web</a>
                     <div class="ps-2 pt-2 pb-1 text-secondary small">Công Việc</div>

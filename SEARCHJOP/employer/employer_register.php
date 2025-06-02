@@ -64,7 +64,11 @@ if (isset($_POST['register'])) {
 
 <nav class="navbar navbar-expand-lg">
   <div class="container">
-    <img src="https://hoitinhoc.binhdinh.gov.vn/wp-content/uploads/2019/04/image001.png" width="60" height="60" alt="logoweb">
+    <div class="pt-4 ps-3 mb-2">
+               <a class="navbar-brand fw-bold d-flex align-items-center" href="../index.php">
+                    <img src="https://hoitinhoc.binhdinh.gov.vn/wp-content/uploads/2019/04/image001.png" class="me-2" alt="Logo" width="60" height="60"> Web Tìm Việc
+                </a>
+            </div>
     <a class="navbar-brand fw-bold" href="../index.php">Web Tìm Việc</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
       <span class="navbar-toggler-icon"></span>

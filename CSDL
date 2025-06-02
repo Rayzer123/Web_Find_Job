@@ -98,3 +98,5 @@ CREATE TABLE jobs_notifications (
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users(id)
 );
+USE findjob;
+ALTER TABLE jobs ADD COLUMN job_type VARCHAR(50) AFTER salary;

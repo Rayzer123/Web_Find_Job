@@ -1,7 +1,37 @@
 <?php
 session_start();
-if(!isset($_SESSION['employer_id'])) header('Location: employer_login.php');
+if (!isset($_SESSION['employer_id'])) {
+    header("Location: employer_login.php");
+    exit();
+}
+include('../db_connect.php');
+
+$success = '';
+$error = '';
+
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    $title = $_POST['job_title'];
+    $description = $_POST['job_description'];
+    $location = $_POST['job_location'];
+    $salary = $_POST['salary'];
+    $job_type = $_POST['job_type'];
+    $employer_id = $_SESSION['employer_id'];
+
+    $sql = "INSERT INTO jobs (title, description, location, salary, job_type, employer_id, created_at)
+            VALUES (?, ?, ?, ?, ?, ?, NOW())";
+    $stmt = mysqli_prepare($conn, $sql);
+    mysqli_stmt_bind_param($stmt, "sssssi", $title, $description, $location, $salary, $job_type, $employer_id);
+
+    if (mysqli_stmt_execute($stmt)) {
+        $success = "Đăng tin tuyển dụng thành công!";
+    } else {
+        $error = "Lỗi khi đăng tin: " . mysqli_error($conn);
+    }
+
+    mysqli_stmt_close($stmt);
+}
 ?>
+
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -37,7 +67,9 @@ if(!isset($_SESSION['employer_id'])) header('Location: employer_login.php');
         <!-- Sidebar -->
         <div class="col-2 sidebar px-0 d-flex flex-column position-relative">
             <div class="pt-4 ps-3 mb-2">
-                <img src="https://hoitinhoc.binhdinh.gov.vn/wp-content/uploads/2019/04/image001.png" height="60" width="60" alt="Logo">
+               <a class="navbar-brand fw-bold d-flex align-items-center" href="../index.php">
+                    <img src="https://hoitinhoc.binhdinh.gov.vn/wp-content/uploads/2019/04/image001.png" class="me-2" alt="Logo" width="60" height="60"> Web Tìm Việc
+                </a>
             </div>
             <nav class="nav flex-column">
                 <a class="nav-link" href="employer_dashboard.php"><i class="bi bi-person"></i> My Web</a>
@@ -67,7 +99,13 @@ if(!isset($_SESSION['employer_id'])) header('Location: employer_login.php');
         <div class="col-10 main-content px-5 py-4">
             <h2 class="dashboard-header">Đăng tin tuyển dụng mới</h2>
 
-            <form action="process_post_job.php" method="POST">
+            <?php if ($success): ?>
+                <div class="alert alert-success"><?= $success ?></div>
+            <?php elseif ($error): ?>
+                <div class="alert alert-danger"><?= $error ?></div>
+            <?php endif; ?>
+
+            <form method="POST">
                 <div class="mb-3">
                     <label for="job_title" class="form-label">Tiêu đề công việc</label>
                     <input type="text" class="form-control" id="job_title" name="job_title" required>
