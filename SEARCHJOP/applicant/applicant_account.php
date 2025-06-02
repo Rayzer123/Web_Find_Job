@@ -150,7 +150,7 @@ if (isset($_POST['delete_account'])) {
                 <h6 class="fw-bold mb-3">Tài khoản</h6>
                 <ul class="nav flex-column">
                     <li class="nav-item mb-2"><a class="nav-link active" href="#">Tài khoản</a></li>
-                    <li class="nav-item mb-2"><a class="nav-link" href="#">Đổi mật khẩu</a></li>
+                    <li class="nav-item mb-2"><a class="nav-link" href="applicant_changed_pass.php">Đổi mật khẩu</a></li>
                 </ul>
             </div>
         </div>
