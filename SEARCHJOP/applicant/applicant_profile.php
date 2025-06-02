@@ -3,10 +3,79 @@
 session_start();
 include '../db_connect.php';
 // Lấy id ứng viên (giả sử lưu trong $_SESSION)
-$applicant_id = $_SESSION['applicant_id'] ?? 0;
+$applicant_id = $_SESSION['user_id'] ?? 0;
 // Truy vấn hồ sơ (có thể không có)
 $resumes = []; // demo, hãy thay bằng truy vấn DB của bạn
-$cover_letters = []; // demo, hãy thay bằng truy vấn DB của bạn
+if($applicant_id > 0){
+    $stmt = $conn->prepare("SELECT id, user_id, profession, experience, education, language FROM resumes WHERE user_id = ?");
+    $stmt->bind_param("i", $applicant_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    while($row = $result->fetch_assoc()){
+        $resumes[] = $row;
+    }
+    $stmt->close();
+}
+if (isset($_POST['delete']) && !empty($_POST['delete_id'])) {
+    $delete_id = (int)$_POST['delete_id'];
+
+    $stmt = $conn->prepare("DELETE FROM resumes WHERE id = ?");
+    $stmt->bind_param("i", $delete_id);
+
+    if ($stmt->execute()) {
+        echo "<script>alert('Đã xóa thành công!'); window.location.href='applicant_profile.php';</script>";
+        exit;
+    }
+    $stmt->close();
+}
+
+if (isset($_POST['add'])) {
+    header("Location:applicant_create_resume.php");
+    exit;
+}
+$cover_letters = [];
+if($applicant_id > 0){
+    $stmt = $conn->prepare("SELECT id, user_id, content_path FROM cover_letters WHERE user_id = ?");
+    $stmt->bind_param("i", $applicant_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    while($row = $result->fetch_assoc()){
+        $cover_letters[] = $row;
+    }
+    $stmt->close();
+}
+if(isset($_POST['delete1'])){
+    $stmt = $conn->prepare("DELETE FROM cover_letters WHERE user_id = ?");
+    $stmt->bind_param("i", $applicant_id);
+
+    if ($stmt->execute()) {
+        echo "<script>alert('Đã xóa thành công!'); window.location.href='applicant_profile.php';</script>";
+        exit;
+    }
+    $stmt->close();
+}
+if(isset(($_POST['watch']))){
+    $sql = "SELECT content_path FROM cover_letters WHERE user_id = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("i", $applicant_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    if ($row = $result->fetch_assoc()) {
+        $filePath = $row['content_path'];
+        $filename = basename($filePath);
+
+        header("Content-Type: application/vnd.ms-word");
+        header("Content-Disposition: attachment; filename=\"$filename\"");
+        header("Content-Length: " . filesize($filePath));
+
+        readfile($filePath);
+        exit;
+    }
+
+}
 ?>
 <!DOCTYPE html>
 <html lang="vi">
@@ -37,7 +106,21 @@ $cover_letters = []; // demo, hãy thay bằng truy vấn DB của bạn
                         <a href="applicant_create_resume.php" class="btn btn-outline-primary btn-create">+ Tạo hồ sơ mới</a>
                     </div>
                 <?php else: ?>
-                    <!-- Hiện danh sách hồ sơ tại đây -->
+                    <div style="max-height: 190px; overflow-y: auto; border: 1px solid #ccc; padding: 10px;">
+                        <?php foreach($resumes as $resume): ?>
+                            <div class="resume-item mb-3 p-3 border rounded">
+                                <strong>Ngành nghề:</strong> <?= htmlspecialchars($resume['profession']) ?><br>
+                                <strong>Kinh nghiệm:</strong> <?= htmlspecialchars($resume['experience']) ?><br>
+                                <strong>Học vấn:</strong> <?= htmlspecialchars($resume['education']) ?><br>
+                                <strong>Ngôn ngữ:</strong> <?= htmlspecialchars($resume['language']) ?><br>
+                                <form method="post" style="display:inline;">
+                                    <input type="hidden" name="delete_id" value="<?= $resume['id'] ?>">
+                                    <button type="submit" name="delete" class="btn btn-danger btn-sm">Xóa</button>
+                                    <button type="submit" name="add" class="btn btn-danger btn-sm">Thêm</button>
+                                </form>
+                            </div>
+                        <?php endforeach; ?>
+                    </div>
                 <?php endif; ?>
             </div>
             <div class="profile-box">
@@ -50,6 +133,13 @@ $cover_letters = []; // demo, hãy thay bằng truy vấn DB của bạn
                     </div>
                 <?php else: ?>
                     <!-- Hiển thị thư xin việc -->
+                    <div class="resume-item mb-3 p-3 border rounded">
+                        <strong>Thư xin việc</strong>
+                        <form method="post" style="display:inline;">
+                            <button type="submit" name="delete1" class="btn btn-danger btn-sm">Xóa</button>
+                            <button type="submit" name="watch" class="btn btn-danger btn-sm">Xem</button>
+                        </form>
+                    </div>
                 <?php endif; ?>
             </div>
         </div>

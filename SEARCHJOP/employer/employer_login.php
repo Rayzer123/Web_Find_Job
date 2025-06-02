@@ -84,8 +84,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['login'])) {
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle active" href="#" id="dropdownUser" role="button" data-bs-toggle="dropdown" aria-expanded="false">Thành viên</a>
           <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownUser">
-            <li><a class="dropdown-item active" href="applicant_login.php">Ứng viên - Đăng nhập</a></li>
-            <li><a class="dropdown-item" href="applicant_register.php">Ứng viên - Đăng ký</a></li>
+            <li><a class="dropdown-item active" href="../applicant/applicant_login.php">Ứng viên - Đăng nhập</a></li>
+            <li><a class="dropdown-item" href="../applicant/applicant_register.php">Ứng viên - Đăng ký</a></li>
             <li><hr class="dropdown-divider"></li>
             <li><a class="dropdown-item" href="../employer/employer_login.php">Nhà tuyển dụng - Đăng nhập</a></li>
             <li><a class="dropdown-item" href="../employer/employer_register.php">Nhà tuyển dụng - Đăng ký</a></li>
@@ -126,7 +126,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['login'])) {
                 <a href="#">Quên mật khẩu?</a>
             </div>
             <hr>
-            <p class="text-center">Chưa có tài khoản? <a href="applicant_register.php">Đăng ký ngay</a></p>
+            <p class="text-center">Chưa có tài khoản? <a href="employer_register.php">Đăng ký ngay</a></p>
         </form>
     </div>
 </div>
