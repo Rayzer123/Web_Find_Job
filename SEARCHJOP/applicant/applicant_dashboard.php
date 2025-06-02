@@ -182,7 +182,7 @@ session_start();
             <div class="col-md-3 footer-col">
                 <div class="footer-title">Về Web Tìm Việc</div>
                 <ul class="list-unstyled">
-                    <li><a href="../introduce/gioiThieu.php">Về chúng tôi</a></li>
+                    <li><a href="#">Về chúng tôi</a></li>
                     <li><a href="#">Quy chế hoạt động</a></li>
                     <li><a href="#">Quy định bảo mật</a></li>
                     <li><a href="#">Thỏa thuận sử dụng</a></li>
@@ -212,22 +212,21 @@ session_start();
             <div class="col-md-3 footer-col">
                 <div class="footer-title">Kết nối với chúng tôi</div>
                 <div class="mb-2">
-                    <img src="../img/logo_team.PNG" height="32" alt="">
+                    <img src="../assets/logoweb.jpg" height="32" alt="">
                 </div>
                 <div>
-                    <a href="https://www.facebook.com/groups/timvieclamonlinecntt46a"><i class="bi bi-facebook me-1"></i></a>
+                    <a href="#"><i class="bi bi-facebook me-1"></i></a>
                     <a href="#"><i class="bi bi-youtube me-1"></i></a>
                     <a href="#"><i class="bi bi-linkedin me-1"></i></a>
-                    <a href="https://www.tiktok.com/@timvieclam_46a"><i class="bi bi-tiktok"></i></a>
+                    <a href="#"><i class="bi bi-tiktok"></i></a>
                 </div>
                 <div class="mt-2 small">Tải ứng dụng: 
-					<div style="display:flex;">
-						<img src="../img/vecteezy_badge-google-play-and-app-store-button-download_24170871.PNG" height="28" alt="play">
-						<div style = "margin-left: 20px"><img src="../img/vecteezy_badge-google-play-and-app-store-button-download_24170865.PNG" height="28" alt="appstore"></div>
+                    <img src="https://careerlink.vn/static/img/app-googleplay.png" height="28" alt="play">
+                    <img src="https://careerlink.vn/static/img/app-appstore.png" height="28" alt="appstore">
                 </div>
             </div>
         </div>
-        <div class="text-center mt-3 small">© <?= date("Y") ?> Web Tìm Việc.</div>
+        <div class="text-center mt-3 small">© <?= date("Y") ?> Web Tìm Việc. Thiết kế bởi Quytop1.</div>
     </div>
 </div>
 <!-- Bootstrap JS -->
