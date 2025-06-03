@@ -82,7 +82,7 @@
 
 <!-- Search Bar -->
 <div class="container search-bar shadow">
-    <form class="row g-3 align-items-center" method="get" action="applicant_jobs.php">
+    <form class="row g-3 align-items-center" action="./applicant/applicant_jobs.php" method="get">
         <div class="col-md-5">
             <input type="text" class="form-control" name="search" placeholder="Nhập từ khóa (VD: Kế toán, IT...)">
         </div>
