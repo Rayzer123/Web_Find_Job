@@ -139,6 +139,13 @@ if(isset($_POST['update_password'])) {
                     </div>
                 </form>
             </div>
+            <div class="col-md-2">
+                        <img src="<?= $logo_file ?>" alt="Logo" width="150" height="150" class="rounded-circle border">
+            </div>
+            <form method="post" action="employer_settings.php" enctype="multipart/form-data" class="d-flex gap-2"></form>
+                <button type="button" id="showFileInputBtn" class="btn btn-secondary">Chọn ảnh</button>
+                <button type="submit" name="save_logo" class="btn btn-primary" style="display: none;">Lưu ảnh</button>
+            </form>
         </div>
     </div>
 </div>

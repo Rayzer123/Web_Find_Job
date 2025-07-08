@@ -94,7 +94,7 @@ $rs_related = mysqli_query($conn, $sql_related);
                 <div class="job-info mb-2">
                     <i class="bi bi-geo-alt"></i> <?= htmlspecialchars($job['location']) ?> &nbsp;
                     <span class="badge bg-success"><?= htmlspecialchars($job['salary']) ?></span> &nbsp;
-                    <span><i class="bi bi-briefcase"></i> <?= htmlspecialchars($job['experience']) ?> năm kinh nghiệm</span>
+                    <span><i class="bi bi-briefcase"></i> <?= htmlspecialchars($job['requirements']) ?> năm kinh nghiệm</span>
                 </div>
                 <div class="job-meta text-muted small mb-2">
                     <i class="bi bi-calendar"></i> Đăng ngày <?= date('d-m-Y', strtotime($job['created_at'])) ?> &nbsp; | Hết hạn: <?= date('d-m-Y', strtotime($job['deadline'])) ?>

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th6 02, 2025 lúc 05:40 PM
+-- Thời gian đã tạo: Th7 08, 2025 lúc 10:10 AM
 -- Phiên bản máy phục vụ: 10.4.32-MariaDB
 -- Phiên bản PHP: 8.2.12
 
@@ -68,16 +68,17 @@ CREATE TABLE `employers` (
   `address` varchar(255) DEFAULT NULL,
   `website` varchar(100) DEFAULT NULL,
   `description` text DEFAULT NULL,
-  `created_at` datetime DEFAULT current_timestamp()
+  `created_at` datetime DEFAULT current_timestamp(),
+  `company_intro` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Đang đổ dữ liệu cho bảng `employers`
 --
 
-INSERT INTO `employers` (`id`, `company_name`, `email`, `password`, `logo`, `phone`, `address`, `website`, `description`, `created_at`) VALUES
-(1, 'Rayzer', 'pducdddd@gmail.com', '$2y$10$aAtLBXj6fa0j8UYwiRmgKuJnyz22w92WOjvEvHWS3gZD7DcGYdr3.', NULL, NULL, NULL, NULL, NULL, '2025-06-01 20:07:26'),
-(3, 'Phạm Hữu Đức', 'duc4651050062@st.qnu.edu.vn', '$2y$10$EeiZ5cxAw4pdTlbQ1A3gfuXt7LlNlFAz83GQz1pLbJnnOQ9Sv4FQW', NULL, NULL, NULL, NULL, NULL, '2025-06-02 14:00:30');
+INSERT INTO `employers` (`id`, `company_name`, `email`, `password`, `logo`, `phone`, `address`, `website`, `description`, `created_at`, `company_intro`) VALUES
+(1, 'Rayzer', 'pducdddd@gmail.com', '$2y$10$aAtLBXj6fa0j8UYwiRmgKuJnyz22w92WOjvEvHWS3gZD7DcGYdr3.', NULL, NULL, NULL, NULL, NULL, '2025-06-01 20:07:26', NULL),
+(3, 'Phạm Hữu Đức', 'duc4651050062@st.qnu.edu.vn', '$2y$10$EeiZ5cxAw4pdTlbQ1A3gfuXt7LlNlFAz83GQz1pLbJnnOQ9Sv4FQW', NULL, NULL, NULL, NULL, NULL, '2025-06-02 14:00:30', NULL);
 
 -- --------------------------------------------------------
 
@@ -96,16 +97,18 @@ CREATE TABLE `jobs` (
   `benefits` text DEFAULT NULL,
   `created_at` datetime DEFAULT current_timestamp(),
   `updated_at` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `job_type` varchar(255) DEFAULT NULL
+  `job_type` varchar(255) DEFAULT NULL,
+  `industry` text DEFAULT NULL,
+  `deadline` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Đang đổ dữ liệu cho bảng `jobs`
 --
 
-INSERT INTO `jobs` (`id`, `employer_id`, `title`, `description`, `location`, `salary`, `requirements`, `benefits`, `created_at`, `updated_at`, `job_type`) VALUES
-(1, 1, 'IT', 'ABC XYZ', NULL, NULL, NULL, NULL, '2025-06-01 21:46:30', '2025-06-01 21:46:30', NULL),
-(2, 3, 'IT', 'ABC', 'Hà nội', '12.000.000', NULL, NULL, '2025-06-02 15:12:45', '2025-06-02 15:12:45', 'Toàn thời gian');
+INSERT INTO `jobs` (`id`, `employer_id`, `title`, `description`, `location`, `salary`, `requirements`, `benefits`, `created_at`, `updated_at`, `job_type`, `industry`, `deadline`) VALUES
+(1, 1, 'IT', 'ABC XYZ', NULL, NULL, NULL, NULL, '2025-06-01 21:46:30', '2025-06-01 21:46:30', NULL, NULL, NULL),
+(2, 3, 'IT', 'ABC', 'Hà nội', '12.000.000', NULL, NULL, '2025-06-02 15:12:45', '2025-06-02 15:12:45', 'Toàn thời gian', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -261,7 +264,7 @@ ALTER TABLE `applications`
 -- AUTO_INCREMENT cho bảng `cover_letters`
 --
 ALTER TABLE `cover_letters`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT cho bảng `employers`
