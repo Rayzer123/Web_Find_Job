@@ -2,6 +2,8 @@
 include '../db_connect.php';
 session_start();
 
+
+
 $keyword = isset($_GET['search']) ? trim($_GET['search']) : '';
 $location = isset($_GET['location']) ? trim($_GET['location']) : '';
 
@@ -78,11 +80,13 @@ $rs = mysqli_query($conn, $sql);
         <div class="alert alert-warning">Không tìm thấy công việc phù hợp!</div>
     <?php else: ?>
         <?php while($job = mysqli_fetch_assoc($rs)): ?>
+            <?php $logo_file1 = '../img/logo/' . $job['logo'];?>
             <div class="job-card p-3 d-flex align-items-center">
                 <?php if ($job['logo']): ?>
-                    <img src="../upload/<?= htmlspecialchars($job['logo']) ?>" class="job-logo me-3" alt="<?= htmlspecialchars($job['company_name']) ?>">
+                    
+                    <img src="<?= $logo_file1 ?>" class="job-logo me-3" alt="<?= htmlspecialchars($job['company_name']) ?>">
                 <?php else: ?>
-                    <img src="../assets/logoweb.jpg" class="job-logo me-3" alt="Logo">
+                    <img src='../logoweb.jpg' class="job-logo me-3" alt="Logo">
                 <?php endif; ?>
                 <div class="flex-grow-1">
                     <div class="job-title">
