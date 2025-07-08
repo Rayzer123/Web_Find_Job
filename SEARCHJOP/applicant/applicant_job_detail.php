@@ -5,6 +5,22 @@ session_start();
 
 $job_id = isset($_GET['id']) ? intval($_GET['id']) : 0;
 
+$employer_id = $_SESSION['employer_id'];
+
+$stmt1 = $conn->prepare("SELECT * FROM employers WHERE id = ?");
+$stmt1->bind_param("i", $employer_id); // "i" là kiểu integer
+$stmt1->execute();
+
+$result1 = $stmt1->get_result();
+$employer1 = $result1->fetch_assoc();
+
+$logo_file1 = $employer1['logo'] ?? '';
+if (!$logo_file1 || !file_exists('../img/logo/' . $logo_file1)) {
+    $logo_file1 = '../logoweb.jpg'; // link ảnh mặc định
+} else {
+    $logo_file1 = '../img/logo/' . htmlspecialchars($logo_file1);
+    
+}
 // Truy vấn thông tin công việc (giả lập, bạn thay bằng bảng thực tế của mình)
 $sql = "SELECT jobs.*, employers.company_name, employers.logo, employers.company_intro
         FROM jobs
@@ -83,11 +99,8 @@ $rs_related = mysqli_query($conn, $sql_related);
     <!-- Header job info -->
     <div class="job-header row">
         <div class="col-md-9 d-flex align-items-center">
-            <?php if ($job['logo']): ?>
-                <img src="../upload/<?= htmlspecialchars($job['logo']) ?>" class="job-logo me-3" alt="<?= htmlspecialchars($job['company_name']) ?>">
-            <?php else: ?>
-                <img src="../assets/logoweb.jpg" class="job-logo me-3" alt="Logo">
-            <?php endif; ?>
+            <img src="<?= $logo_file1 ?>" width="70" height="70" class="rounded-circle border" alt="<?= htmlspecialchars($job['company_name']) ?>" >
+            
             <div>
                 <div class="job-title"><?= htmlspecialchars($job['title']) ?></div>
                 <div class="company-name mb-2"><b><?= htmlspecialchars($job['company_name']) ?></b></div>

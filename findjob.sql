@@ -2,10 +2,10 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: Jul 08, 2025 at 12:09 PM
--- Server version: 10.4.32-MariaDB
--- PHP Version: 8.0.30
+-- Máy chủ: 127.0.0.1
+-- Thời gian đã tạo: Th7 08, 2025 lúc 12:09 PM
+-- Phiên bản máy phục vụ: 10.4.32-MariaDB
+-- Phiên bản PHP: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,13 +18,13 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `findjob`
+-- Cơ sở dữ liệu: `findjob`
 --
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `applications`
+-- Cấu trúc bảng cho bảng `applications`
 --
 
 CREATE TABLE `applications` (
@@ -40,7 +40,7 @@ CREATE TABLE `applications` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `cover_letters`
+-- Cấu trúc bảng cho bảng `cover_letters`
 --
 
 CREATE TABLE `cover_letters` (
@@ -55,7 +55,7 @@ CREATE TABLE `cover_letters` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `employers`
+-- Cấu trúc bảng cho bảng `employers`
 --
 
 CREATE TABLE `employers` (
@@ -73,24 +73,22 @@ CREATE TABLE `employers` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Dumping data for table `employers`
+-- Đang đổ dữ liệu cho bảng `employers`
 --
 
 INSERT INTO `employers` (`id`, `company_name`, `email`, `password`, `logo`, `phone`, `address`, `website`, `description`, `created_at`, `company_intro`) VALUES
 (1, 'Rayzer', 'pducdddd@gmail.com', '$2y$10$aAtLBXj6fa0j8UYwiRmgKuJnyz22w92WOjvEvHWS3gZD7DcGYdr3.', NULL, NULL, NULL, NULL, NULL, '2025-06-01 20:07:26', NULL),
-(3, 'Phạm Hữu Đức', 'duc4651050062@st.qnu.edu.vn', '$2y$10$EeiZ5cxAw4pdTlbQ1A3gfuXt7LlNlFAz83GQz1pLbJnnOQ9Sv4FQW', NULL, NULL, NULL, NULL, NULL, '2025-06-02 14:00:30', NULL),
-(4, 'XYZ', 'duchieungopt@gmail.com', '$2y$10$Q3J.t/GvJGSp7yNEaiA.n.0Pdw72gneRlY06hYXsTclKxEshRtN9G', NULL, NULL, NULL, NULL, NULL, '2025-07-08 15:29:32', NULL);
+(3, 'Phạm Hữu Đức', 'duc4651050062@st.qnu.edu.vn', '$2y$10$EeiZ5cxAw4pdTlbQ1A3gfuXt7LlNlFAz83GQz1pLbJnnOQ9Sv4FQW', 'logo_3_1751964768.jpg', NULL, NULL, NULL, NULL, '2025-06-02 14:00:30', NULL);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `jobs`
+-- Cấu trúc bảng cho bảng `jobs`
 --
 
 CREATE TABLE `jobs` (
   `id` int(11) NOT NULL,
   `employer_id` int(11) DEFAULT NULL,
-  `company_name` varchar(255) DEFAULT NULL,
   `title` varchar(255) NOT NULL,
   `description` text DEFAULT NULL,
   `location` varchar(100) DEFAULT NULL,
@@ -101,26 +99,21 @@ CREATE TABLE `jobs` (
   `updated_at` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `job_type` varchar(255) DEFAULT NULL,
   `industry` text DEFAULT NULL,
-  `deadline` date DEFAULT NULL,
-  `display_duration` int(11) NOT NULL DEFAULT 30,
-  `years_experience` int(11) NOT NULL DEFAULT 0
+  `deadline` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Dumping data for table `jobs`
+-- Đang đổ dữ liệu cho bảng `jobs`
 --
 
-INSERT INTO `jobs` (`id`, `employer_id`, `company_name`, `title`, `description`, `location`, `salary`, `requirements`, `benefits`, `created_at`, `updated_at`, `job_type`, `industry`, `deadline`, `display_duration`, `years_experience`) VALUES
-(1, 1, NULL, 'IT', 'ABC XYZ', NULL, NULL, NULL, NULL, '2025-06-01 21:46:30', '2025-06-01 21:46:30', NULL, NULL, NULL, 30, 0),
-(2, 3, NULL, 'IT', 'ABC', 'Hà nội', '12.000.000', NULL, NULL, '2025-06-02 15:12:45', '2025-06-02 15:12:45', 'Toàn thời gian', NULL, NULL, 30, 0),
-(4, 4, NULL, 'COde', 'Lập trình', 'Quy Nhơn', '100000000000', NULL, NULL, '2025-07-08 16:31:15', '2025-07-08 16:31:15', 'Thực tập', NULL, NULL, 30, 2),
-(6, 4, 'TH Trua Miu', 'Lập Trình Viên', 'Biết bấm máy tính', 'Quy Nhơn', '100000000000', NULL, NULL, '2025-07-08 16:47:40', '2025-07-08 16:47:40', 'Thực tập', NULL, NULL, 3, 3),
-(7, 4, 'T', 'Lập Trình Viên', 'aaaaaaaaaaaaaaaaa', 'Quy Nhơn', '10000000000', NULL, NULL, '2025-07-08 16:51:16', '2025-07-08 16:51:16', 'Bán thời gian', NULL, NULL, 30, 1);
+INSERT INTO `jobs` (`id`, `employer_id`, `title`, `description`, `location`, `salary`, `requirements`, `benefits`, `created_at`, `updated_at`, `job_type`, `industry`, `deadline`) VALUES
+(1, 1, 'IT', 'ABC XYZ', NULL, NULL, NULL, NULL, '2025-06-01 21:46:30', '2025-06-01 21:46:30', NULL, NULL, NULL),
+(2, 3, 'IT', 'ABC', 'Hà nội', '12.000.000', NULL, NULL, '2025-06-02 15:12:45', '2025-06-02 15:12:45', 'Toàn thời gian', NULL, NULL);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `jobs_notifications`
+-- Cấu trúc bảng cho bảng `jobs_notifications`
 --
 
 CREATE TABLE `jobs_notifications` (
@@ -134,7 +127,7 @@ CREATE TABLE `jobs_notifications` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `jobs_saved`
+-- Cấu trúc bảng cho bảng `jobs_saved`
 --
 
 CREATE TABLE `jobs_saved` (
@@ -147,7 +140,7 @@ CREATE TABLE `jobs_saved` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `resumes`
+-- Cấu trúc bảng cho bảng `resumes`
 --
 
 CREATE TABLE `resumes` (
@@ -161,7 +154,7 @@ CREATE TABLE `resumes` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Dumping data for table `resumes`
+-- Đang đổ dữ liệu cho bảng `resumes`
 --
 
 INSERT INTO `resumes` (`id`, `user_id`, `users`, `profession`, `experience`, `education`, `language`) VALUES
@@ -171,7 +164,7 @@ INSERT INTO `resumes` (`id`, `user_id`, `users`, `profession`, `experience`, `ed
 -- --------------------------------------------------------
 
 --
--- Table structure for table `users`
+-- Cấu trúc bảng cho bảng `users`
 --
 
 CREATE TABLE `users` (
@@ -189,20 +182,19 @@ CREATE TABLE `users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Dumping data for table `users`
+-- Đang đổ dữ liệu cho bảng `users`
 --
 
 INSERT INTO `users` (`id`, `name`, `email`, `password`, `phone`, `gender`, `dob`, `marital_status`, `address`, `created_at`, `avatar`) VALUES
 (2, 'Pham Huu Duc', 'duc4651050062@st.qnu.edu.vn', '$2y$10$EDflrQ0eVxI3BHTeNlG97ONGVq/KSQUu/dSIKckonf8LapFaVxe6u', '0332609031', '', '0000-00-00', 'Độc thân', 'w3rqf5hyw', '2025-06-01 20:49:16', 'avatar_2_1748836938.png'),
-(3, 'Jazz', 'teariam@gmail.com', '$2y$10$qhYB6HK8/bMpNC/vxfa2QOMLgwmqGPqfScp9BFp8na6wLPeX2E.06', NULL, NULL, NULL, NULL, NULL, '2025-06-01 21:49:22', NULL),
-(4, 'hieu', 'duchieungopt@gmail.com', '$2y$10$nYEwgKHx3ACiD6Sib5IJDOFiHxxTXd1EtDfcNADl7PerqI1YqNlNa', NULL, NULL, NULL, NULL, NULL, '2025-07-08 15:25:36', NULL);
+(3, 'Jazz', 'teariam@gmail.com', '$2y$10$qhYB6HK8/bMpNC/vxfa2QOMLgwmqGPqfScp9BFp8na6wLPeX2E.06', NULL, NULL, NULL, NULL, NULL, '2025-06-01 21:49:22', NULL);
 
 --
--- Indexes for dumped tables
+-- Chỉ mục cho các bảng đã đổ
 --
 
 --
--- Indexes for table `applications`
+-- Chỉ mục cho bảng `applications`
 --
 ALTER TABLE `applications`
   ADD PRIMARY KEY (`id`),
@@ -210,35 +202,35 @@ ALTER TABLE `applications`
   ADD KEY `job_id` (`job_id`);
 
 --
--- Indexes for table `cover_letters`
+-- Chỉ mục cho bảng `cover_letters`
 --
 ALTER TABLE `cover_letters`
   ADD PRIMARY KEY (`id`),
   ADD KEY `user_id` (`user_id`);
 
 --
--- Indexes for table `employers`
+-- Chỉ mục cho bảng `employers`
 --
 ALTER TABLE `employers`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `email` (`email`);
 
 --
--- Indexes for table `jobs`
+-- Chỉ mục cho bảng `jobs`
 --
 ALTER TABLE `jobs`
   ADD PRIMARY KEY (`id`),
   ADD KEY `employer_id` (`employer_id`);
 
 --
--- Indexes for table `jobs_notifications`
+-- Chỉ mục cho bảng `jobs_notifications`
 --
 ALTER TABLE `jobs_notifications`
   ADD PRIMARY KEY (`id`),
   ADD KEY `user_id` (`user_id`);
 
 --
--- Indexes for table `jobs_saved`
+-- Chỉ mục cho bảng `jobs_saved`
 --
 ALTER TABLE `jobs_saved`
   ADD PRIMARY KEY (`id`),
@@ -246,101 +238,101 @@ ALTER TABLE `jobs_saved`
   ADD KEY `job_id` (`job_id`);
 
 --
--- Indexes for table `resumes`
+-- Chỉ mục cho bảng `resumes`
 --
 ALTER TABLE `resumes`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `users`
+-- Chỉ mục cho bảng `users`
 --
 ALTER TABLE `users`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `email` (`email`);
 
 --
--- AUTO_INCREMENT for dumped tables
+-- AUTO_INCREMENT cho các bảng đã đổ
 --
 
 --
--- AUTO_INCREMENT for table `applications`
+-- AUTO_INCREMENT cho bảng `applications`
 --
 ALTER TABLE `applications`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `cover_letters`
+-- AUTO_INCREMENT cho bảng `cover_letters`
 --
 ALTER TABLE `cover_letters`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
--- AUTO_INCREMENT for table `employers`
+-- AUTO_INCREMENT cho bảng `employers`
 --
 ALTER TABLE `employers`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
--- AUTO_INCREMENT for table `jobs`
+-- AUTO_INCREMENT cho bảng `jobs`
 --
 ALTER TABLE `jobs`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- AUTO_INCREMENT for table `jobs_notifications`
+-- AUTO_INCREMENT cho bảng `jobs_notifications`
 --
 ALTER TABLE `jobs_notifications`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `jobs_saved`
+-- AUTO_INCREMENT cho bảng `jobs_saved`
 --
 ALTER TABLE `jobs_saved`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `resumes`
+-- AUTO_INCREMENT cho bảng `resumes`
 --
 ALTER TABLE `resumes`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
--- AUTO_INCREMENT for table `users`
+-- AUTO_INCREMENT cho bảng `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
--- Constraints for dumped tables
+-- Các ràng buộc cho các bảng đã đổ
 --
 
 --
--- Constraints for table `applications`
+-- Các ràng buộc cho bảng `applications`
 --
 ALTER TABLE `applications`
   ADD CONSTRAINT `applications_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
   ADD CONSTRAINT `applications_ibfk_2` FOREIGN KEY (`job_id`) REFERENCES `jobs` (`id`);
 
 --
--- Constraints for table `cover_letters`
+-- Các ràng buộc cho bảng `cover_letters`
 --
 ALTER TABLE `cover_letters`
   ADD CONSTRAINT `cover_letters_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
 
 --
--- Constraints for table `jobs`
+-- Các ràng buộc cho bảng `jobs`
 --
 ALTER TABLE `jobs`
   ADD CONSTRAINT `jobs_ibfk_1` FOREIGN KEY (`employer_id`) REFERENCES `employers` (`id`);
 
 --
--- Constraints for table `jobs_notifications`
+-- Các ràng buộc cho bảng `jobs_notifications`
 --
 ALTER TABLE `jobs_notifications`
   ADD CONSTRAINT `jobs_notifications_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
 
 --
--- Constraints for table `jobs_saved`
+-- Các ràng buộc cho bảng `jobs_saved`
 --
 ALTER TABLE `jobs_saved`
   ADD CONSTRAINT `jobs_saved_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
