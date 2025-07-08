@@ -1,16 +1,13 @@
 <?php
 session_start();
 include('../db_connect.php');
-$employer_id = $_SESSION['employer_id'];
 if(!isset($_SESSION['employer_id'])) header('Location: employer_login.php');
 
 // Lấy thông tin nhà tuyển dụng
-$stmt = $conn->prepare("SELECT * FROM employers WHERE id = ?");
-$stmt->bind_param("i", $employer_id); // "i" là kiểu integer
-$stmt->execute();
-
-$result = $stmt->get_result();
-$employer = $result->fetch_assoc();
+$employer_id = $_SESSION['employer_id'];
+$sql = "SELECT * FROM employers WHERE id = $employer_id";
+$result = mysqli_query($conn, $sql);
+$employer = mysqli_fetch_assoc($result);
 
 $email_msg = '';
 $password_msg = '';
@@ -43,45 +40,6 @@ if(isset($_POST['update_password'])) {
     } else {
         $password_msg = "<span class='text-danger'>Mật khẩu hiện tại không đúng!</span>";
     }
-}
-if (isset($_POST['save_logo']) && isset($_FILES['logo'])) {
-    $file = $_FILES['logo'];
-    
-    // Kiểm tra lỗi upload
-    if ($file['error'] === UPLOAD_ERR_OK) {
-        $tmp_name = $file['tmp_name'];
-        $name = basename($file['name']);
-        $size = $file['size'];
-
-        // Kiểm tra dung lượng (ví dụ tối đa 1MB)
-        if ($size <= 5 * 1024 * 1024) {
-            // Đường dẫn lưu ảnh, ví dụ thư mục uploads/
-            $upload_dir = '../img/logo/';
-            
-            // Tạo tên file mới tránh trùng (ví dụ: userID_timestamp.ext)
-            $ext = pathinfo($name, PATHINFO_EXTENSION);
-            $new_name = 'logo_' . $employer_id . '_' . time() . '.' . $ext;
-            $upload_path = $upload_dir . $new_name;
-
-            // Di chuyển file từ tmp lên thư mục uploads
-            if (move_uploaded_file($tmp_name, $upload_path)) {
-                // Cập nhật đường dẫn ảnh trong database
-                $sql = "UPDATE employers SET logo = ? WHERE id = ?";
-                $stmt = $conn->prepare($sql);
-                $stmt->bind_param("si", $new_name, $employer_id);
-                $stmt->execute();
-                header("Location: " . $_SERVER['PHP_SELF']);
-                exit;
-            }
-        }
-    }
-}
-$logo_file = $employer['logo'] ?? '';
-if (!$logo_file || !file_exists('../img/logo/' . $logo_file)) {
-    $logo_file = '../logoweb.jpg'; // link ảnh mặc định
-} else {
-    $logo_file = '../img/logo/' . htmlspecialchars($logo_file);
-    
 }
 ?>
 <!DOCTYPE html>
@@ -149,46 +107,18 @@ if (!$logo_file || !file_exists('../img/logo/' . $logo_file)) {
         <div class="col-10 main-content px-5 py-4">
             <h2 class="mb-4" style="color:#004b8d;">Cài đặt</h2>
             <div class="setting-card mb-4">
-                <div class="row">
-                    <!-- Bên trái: Email -->
-                    <div class="col-md-6">
-                        <div class="pe-3">
-                            <div class="setting-title mb-2">Email</div>
-                            <div class="mb-2" style="color:#444">Quản lí và thay đổi địa chỉ email cá nhân của bạn.</div>
-                            <div style="font-size:16px; margin-bottom:10px;">
-                                <b>Email hiện tại</b>: <?= htmlspecialchars($employer['email']) ?>
-                                <span class="text-success">&#10004;</span>
-                            </div>
-                            <form class="row g-2 align-items-end" method="post">
-                                <div class="col-auto">
-                                    <input type="email" name="new_email" class="form-control" placeholder="Nhập email mới">
-                                </div>
-                                <div class="col-auto">
-                                    <button type="submit" name="update_email" class="btn btn-outline-primary">Cập nhật email</button>
-                                </div>
-                                <div class="col-12"><?= $email_msg ?></div>
-                            </form>
-                        </div>
+                <div class="setting-title mb-2">Email</div>
+                <div class="mb-2" style="color:#444">Quản lí và thay đổi địa chỉ email cá nhân của bạn.</div>
+                <div style="font-size:16px; margin-bottom:10px;"><b>Email hiện tại</b>: <?= htmlspecialchars($employer['email']) ?> <span class="text-success">&#10004;</span></div>
+                <form class="row g-2 align-items-end" method="post">
+                    <div class="col-auto">
+                        <input type="email" name="new_email" class="form-control" placeholder="Nhập email mới">
                     </div>
-
-                    <!-- Bên phải: Logo -->
-                    <div class="col-md-6">
-                        <div class="ps-3">
-                            <form method="post" action="employer_settings.php" enctype="multipart/form-data">
-                                <div class="col-md-2">
-                                    <img src="<?= $logo_file ?>" alt="Logo" width="150" height="150" class="rounded-circle border">
-                                </div>
-                                <div class="mb-2" id="fileInputContainer" style="display: none;">
-                                    <input type="file" name="logo" accept="image/*" required class="form-control">
-                                </div>
-                                <div class="d-flex gap-2">
-                                    <button type="button" id="showFileInputBtn" class="btn btn-secondary">Chọn ảnh</button>
-                                    <button type="submit" name="save_logo" class="btn btn-primary" style="display: none;">Lưu ảnh</button>
-                                </div>
-                            </form>
-                        </div>
+                    <div class="col-auto">
+                        <button type="submit" name="update_email" class="btn btn-outline-primary">Cập nhật email</button>
                     </div>
-                </div>
+                    <div class="col-12"><?= $email_msg ?></div>
+                </form>
             </div>
             <div class="setting-card">
                 <div class="setting-title mb-2">Mật khẩu</div>
@@ -209,6 +139,13 @@ if (!$logo_file || !file_exists('../img/logo/' . $logo_file)) {
                     </div>
                 </form>
             </div>
+            <div class="col-md-2">
+                        <img src="<?= $logo_file ?>" alt="Logo" width="150" height="150" class="rounded-circle border">
+            </div>
+            <form method="post" action="employer_settings.php" enctype="multipart/form-data" class="d-flex gap-2"></form>
+                <button type="button" id="showFileInputBtn" class="btn btn-secondary">Chọn ảnh</button>
+                <button type="submit" name="save_logo" class="btn btn-primary" style="display: none;">Lưu ảnh</button>
+            </form>
         </div>
     </div>
 </div>
@@ -217,11 +154,3 @@ if (!$logo_file || !file_exists('../img/logo/' . $logo_file)) {
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
-
-<script>
-document.getElementById('showFileInputBtn').addEventListener('click', function() {
-    document.getElementById('fileInputContainer').style.display = 'block';
-    this.style.display = 'none'; // Ẩn nút "Chọn ảnh"
-    document.querySelector('button[name="save_logo"]').style.display = 'inline-block'; // Hiện nút "Lưu ảnh"
-});
-</script>

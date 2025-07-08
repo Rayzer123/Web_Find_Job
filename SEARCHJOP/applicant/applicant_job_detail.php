@@ -1,47 +1,45 @@
 <?php
-// Kết nối CSDL, lấy id job từ URL
-include '../db_connect.php';
 session_start();
 
+// Kết nối CSDL
+include '../db_connect.php'; 
+
+// Lấy ID công việc từ URL, nếu không có thì mặc định là 0
 $job_id = isset($_GET['id']) ? intval($_GET['id']) : 0;
 
-$employer_id = $_SESSION['employer_id'];
-
-$stmt1 = $conn->prepare("SELECT * FROM employers WHERE id = ?");
-$stmt1->bind_param("i", $employer_id); // "i" là kiểu integer
-$stmt1->execute();
-
-$result1 = $stmt1->get_result();
-$employer1 = $result1->fetch_assoc();
-
-$logo_file1 = $employer1['logo'] ?? '';
-if (!$logo_file1 || !file_exists('../img/logo/' . $logo_file1)) {
-    $logo_file1 = '../logoweb.jpg'; // link ảnh mặc định
-} else {
-    $logo_file1 = '../img/logo/' . htmlspecialchars($logo_file1);
-    
-}
-// Truy vấn thông tin công việc (giả lập, bạn thay bằng bảng thực tế của mình)
-$sql = "SELECT jobs.*, employers.company_name, employers.logo, employers.company_intro
+// Truy vấn thông tin công việc
+// Đã thêm JOIN employers trở lại để lấy logo và company_intro
+$sql = "SELECT jobs.*, employers.logo, employers.company_intro, 
+               COALESCE(jobs.company_name, employers.company_name) AS display_company_name
         FROM jobs
         JOIN employers ON jobs.employer_id = employers.id
         WHERE jobs.id = $job_id LIMIT 1";
 $rs = mysqli_query($conn, $sql);
 $job = mysqli_fetch_assoc($rs);
 
-// Lấy các job tương tự (giả lập theo industry)
-$sql_related = "SELECT jobs.*, employers.company_name, employers.logo 
-                FROM jobs 
+// Xử lý nếu không tìm thấy công việc
+if (!$job) {
+    echo "<!DOCTYPE html><html lang='vi'><head><meta charset='UTF-8'><title>Không tìm thấy</title><link href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css' rel='stylesheet'></head><body><div class='container mt-5'><div class='alert alert-danger'>Không tìm thấy công việc này hoặc công việc không tồn tại.</div><a href='../index.php' class='btn btn-primary'>Về trang chủ</a></div></body></html>";
+    exit();
+}
+
+// Lấy các job tương tự theo ngành nghề (industry)
+// Giữ nguyên truy vấn này vì nó chỉ cần thông tin từ bảng jobs
+$sql_related = "SELECT jobs.*, 
+                       COALESCE(jobs.company_name, employers.company_name) AS display_company_name
+                FROM jobs
                 JOIN employers ON jobs.employer_id = employers.id
-                WHERE jobs.id != $job_id AND jobs.industry = '".mysqli_real_escape_string($conn, $job['industry'])."' 
+                WHERE jobs.id != $job_id 
+                AND jobs.industry = '".mysqli_real_escape_string($conn, $job['industry'])."' 
                 ORDER BY jobs.created_at DESC LIMIT 4";
 $rs_related = mysqli_query($conn, $sql_related);
 ?>
+
 <!DOCTYPE html>
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <title><?= htmlspecialchars($job['title'] ?? 'Chi tiết công việc') ?></title>
+    <title><?= htmlspecialchars($job['title']) ?? 'Chi tiết công việc' ?></title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
@@ -96,21 +94,40 @@ $rs_related = mysqli_query($conn, $sql_related);
     </div>
 </nav>
 <div class="container">
-    <!-- Header job info -->
     <div class="job-header row">
         <div class="col-md-9 d-flex align-items-center">
-            <img src="<?= $logo_file1 ?>" width="70" height="70" class="rounded-circle border" alt="<?= htmlspecialchars($job['company_name']) ?>" >
-            
+            <?php if ($job['logo']): // Dòng 92: Kiểm tra logo từ bảng employers ?>
+                <img src="../upload/<?= htmlspecialchars($job['logo']) ?>" class="job-logo me-3" alt="<?= htmlspecialchars($job['display_company_name']) ?>">
+            <?php else: ?>
+                <img src="../assets/logoweb.jpg" class="job-logo me-3" alt="Logo">
+            <?php endif; ?>
             <div>
                 <div class="job-title"><?= htmlspecialchars($job['title']) ?></div>
-                <div class="company-name mb-2"><b><?= htmlspecialchars($job['company_name']) ?></b></div>
+                <div class="company-name mb-2"><b><?= htmlspecialchars($job['display_company_name']) ?></b></div>
                 <div class="job-info mb-2">
                     <i class="bi bi-geo-alt"></i> <?= htmlspecialchars($job['location']) ?> &nbsp;
                     <span class="badge bg-success"><?= htmlspecialchars($job['salary']) ?></span> &nbsp;
-                    <span><i class="bi bi-briefcase"></i> <?= htmlspecialchars($job['requirements']) ?> năm kinh nghiệm</span>
+                    <span><i class="bi bi-briefcase"></i> 
+                    <?php 
+                    if (isset($job['years_experience'])) {
+                        echo htmlspecialchars($job['years_experience'] == 0 ? 'Không yêu cầu kinh nghiệm' : $job['years_experience'] . ' năm kinh nghiệm');
+                    } else {
+                        echo 'N/A'; // Giá trị mặc định nếu cột không tồn tại
+                    }
+                    ?>
+                    </span>
                 </div>
                 <div class="job-meta text-muted small mb-2">
-                    <i class="bi bi-calendar"></i> Đăng ngày <?= date('d-m-Y', strtotime($job['created_at'])) ?> &nbsp; | Hết hạn: <?= date('d-m-Y', strtotime($job['deadline'])) ?>
+                    <i class="bi bi-calendar"></i> Đăng ngày <?= date('H:i:s d/m/Y', strtotime($job['created_at'])) ?> &nbsp; 
+                    <?php
+                    $expiration_date = 'N/A';
+                    if (isset($job['created_at']) && isset($job['display_duration'])) {
+                        $created_timestamp = strtotime($job['created_at']);
+                        $expiration_timestamp = strtotime("+" . $job['display_duration'] . " days", $created_timestamp);
+                        $expiration_date = date('H:i:s d/m/Y', $expiration_timestamp);
+                    }
+                    ?>
+                    | Hết hạn: <?= $expiration_date ?>
                 </div>
                 <div class="job-action mt-2">
                     <a href="applicant_apply.php?job_id=<?= $job['id'] ?>" class="btn btn-primary me-2">Nộp đơn ngay</a>
@@ -126,13 +143,13 @@ $rs_related = mysqli_query($conn, $sql_related);
             <?php while($rjob = mysqli_fetch_assoc($rs_related)): ?>
                 <div class="related-job d-flex align-items-center">
                     <?php if ($rjob['logo']): ?>
-                        <img src="../upload/<?= htmlspecialchars($rjob['logo']) ?>" class="job-logo" alt="<?= htmlspecialchars($rjob['company_name']) ?>">
+                        <img src="../upload/<?= htmlspecialchars($rjob['logo']) ?>" class="job-logo" alt="<?= htmlspecialchars($rjob['display_company_name']) ?>">
                     <?php else: ?>
                         <img src="../assets/logoweb.jpg" class="job-logo" alt="Logo">
                     <?php endif; ?>
                     <div>
                         <div class="fw-bold"><?= htmlspecialchars($rjob['title']) ?></div>
-                        <div class="small text-muted"><?= htmlspecialchars($rjob['company_name']) ?></div>
+                        <div class="small text-muted"><?= htmlspecialchars($rjob['display_company_name']) ?></div>
                         <div class="small"><i class="bi bi-geo-alt"></i> <?= htmlspecialchars($rjob['location']) ?></div>
                         <div class="small text-primary"><?= htmlspecialchars($rjob['salary']) ?></div>
                         <a href="applicant_job_detail.php?id=<?= $rjob['id'] ?>" class="small d-inline-block">Xem ngay</a>
@@ -141,7 +158,6 @@ $rs_related = mysqli_query($conn, $sql_related);
             <?php endwhile; ?>
         </div>
     </div>
-    <!-- Tabs -->
     <ul class="nav nav-tabs mt-4" id="jobTab" role="tablist">
         <li class="nav-item" role="presentation">
             <button class="nav-link active" id="desc-tab" data-bs-toggle="tab" data-bs-target="#desc-tab-pane" type="button" role="tab">Mô tả</button>
@@ -180,7 +196,15 @@ $rs_related = mysqli_query($conn, $sql_related);
                     <div><b>Học vấn:</b> <?= htmlspecialchars($job['education'] ?? '') ?></div>
                 </div>
                 <div class="col-md-6">
-                    <div><b>Kinh nghiệm:</b> <?= htmlspecialchars($job['experience'] ?? '') ?> năm</div>
+                    <div><b>Kinh nghiệm:</b> 
+                    <?php 
+                    if (isset($job['years_experience'])) {
+                        echo htmlspecialchars($job['years_experience'] == 0 ? 'Không yêu cầu' : $job['years_experience'] . ' năm');
+                    } else {
+                        echo 'N/A';
+                    }
+                    ?>
+                    </div>
                     <div><b>Giới tính:</b> <?= htmlspecialchars($job['gender'] ?? 'Nam / Nữ') ?></div>
                     <div><b>Ngành nghề:</b> <?= htmlspecialchars($job['industry'] ?? '') ?></div>
                 </div>
@@ -192,12 +216,12 @@ $rs_related = mysqli_query($conn, $sql_related);
             <div><b>Điện thoại:</b> <?= htmlspecialchars($job['contact_phone'] ?? '') ?></div>
         </div>
         <div class="tab-pane fade" id="company-tab-pane" role="tabpanel">
+            <div><b>Tên công ty:</b> <?= htmlspecialchars($job['display_company_name'] ?? 'Đang cập nhật...') ?></div>
             <div><b>Giới thiệu công ty:</b></div>
-            <div><?= nl2br(htmlspecialchars($job['company_intro'] ?? 'Đang cập nhật...')) ?></div>
+            <div><?= nl2br(htmlspecialchars($job['company_intro'] ?? 'Đang cập nhật...')) ?></div> 
         </div>
     </div>
 </div>
-<!-- Footer -->
 <div class="footer mt-5">
     <div class="container">
         <div class="row footer-col">

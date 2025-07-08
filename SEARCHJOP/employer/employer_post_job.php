@@ -4,31 +4,56 @@ if (!isset($_SESSION['employer_id'])) {
     header("Location: employer_login.php");
     exit();
 }
-include('../db_connect.php');
+include('../db_connect.php'); // Đảm bảo đường dẫn này đúng tới file kết nối CSDL của bạn
 
 $success = '';
 $error = '';
+$posted_time = '';     // Biến để lưu thời gian đăng tin
+$expiration_time = ''; // Biến để lưu thời gian hết hạn
+
+// Không cần lấy $company_name từ session nữa vì nó sẽ được nhập từ form
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    // Lấy tên công ty từ form POST
+    $company_name = $_POST['company_name']; 
+
     $title = $_POST['job_title'];
     $description = $_POST['job_description'];
     $location = $_POST['job_location'];
     $salary = $_POST['salary'];
     $job_type = $_POST['job_type'];
+    $display_duration = $_POST['display_duration'];
+    $years_experience = $_POST['years_experience'];
     $employer_id = $_SESSION['employer_id'];
 
-    $sql = "INSERT INTO jobs (title, description, location, salary, job_type, employer_id, created_at)
-            VALUES (?, ?, ?, ?, ?, ?, NOW())";
+    // Cập nhật câu lệnh SQL để chèn cột company_name
+    $sql = "INSERT INTO jobs (title, description, location, salary, job_type, display_duration, years_experience, employer_id, company_name, created_at)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())";
+    
     $stmt = mysqli_prepare($conn, $sql);
-    mysqli_stmt_bind_param($stmt, "sssssi", $title, $description, $location, $salary, $job_type, $employer_id);
 
-    if (mysqli_stmt_execute($stmt)) {
-        $success = "Đăng tin tuyển dụng thành công!";
+    if ($stmt === false) {
+        $error = "Lỗi chuẩn bị câu lệnh SQL: " . mysqli_error($conn);
     } else {
-        $error = "Lỗi khi đăng tin: " . mysqli_error($conn);
-    }
+        // Cập nhật chuỗi định dạng cho mysqli_stmt_bind_param
+        // Thêm 's' cho $company_name (string)
+        mysqli_stmt_bind_param($stmt, "sssssiiis", $title, $description, $location, $salary, $job_type, $display_duration, $years_experience, $employer_id, $company_name);
 
-    mysqli_stmt_close($stmt);
+        if (mysqli_stmt_execute($stmt)) {
+            $current_timestamp = time(); 
+            $posted_time = date('H:i:s d/m/Y', $current_timestamp); 
+
+            $expiration_timestamp = strtotime("+" . $display_duration . " days", $current_timestamp);
+            $expiration_time = date('H:i:s d/m/Y', $expiration_timestamp);
+
+            $success = "Đăng tin tuyển dụng thành công vào lúc: **" . $posted_time . "**!<br>";
+            $success .= "Tin sẽ hết hạn vào lúc: **" . $expiration_time . "**.";
+
+        } else {
+            $error = "Lỗi khi đăng tin: " . mysqli_error($conn);
+        }
+        mysqli_stmt_close($stmt);
+    }
 }
 ?>
 
@@ -37,6 +62,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 <head>
     <meta charset="UTF-8">
     <title>Đăng Tuyển dụng | Web Tìm Việc</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
     <style>
@@ -64,10 +90,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 <body>
 <div class="container-fluid">
     <div class="row">
-        <!-- Sidebar -->
         <div class="col-2 sidebar px-0 d-flex flex-column position-relative">
             <div class="pt-4 ps-3 mb-2">
-               <a class="navbar-brand fw-bold d-flex align-items-center" href="../index.php">
+                <a class="navbar-brand fw-bold d-flex align-items-center" href="../index.php">
                     <img src="https://hoitinhoc.binhdinh.gov.vn/wp-content/uploads/2019/04/image001.png" class="me-2" alt="Logo" width="60" height="60"> Web Tìm Việc
                 </a>
             </div>
@@ -95,7 +120,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             </div>
         </div>
 
-        <!-- Main Content -->
         <div class="col-10 main-content px-5 py-4">
             <h2 class="dashboard-header">Đăng tin tuyển dụng mới</h2>
 
@@ -106,6 +130,12 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             <?php endif; ?>
 
             <form method="POST">
+                <div class="mb-3">
+                    <label for="company_name" class="form-label">Tên công ty</label>
+                    <input type="text" class="form-control" id="company_name" name="company_name" required>
+                    <div class="form-text">Nhập tên công ty sẽ hiển thị trên tin tuyển dụng này.</div>
+                </div>
+
                 <div class="mb-3">
                     <label for="job_title" class="form-label">Tiêu đề công việc</label>
                     <input type="text" class="form-control" id="job_title" name="job_title" required>
@@ -132,13 +162,32 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                         <option value="Freelance">Freelance</option>
                     </select>
                 </div>
+                
+                <div class="mb-3">
+                    <label for="display_duration" class="form-label">Thời gian hiển thị (ngày)</label>
+                    <input type="number" class="form-control" id="display_duration" name="display_duration" min="1" value="30" required>
+                    <div class="form-text">Số ngày tin tuyển dụng sẽ hiển thị công khai.</div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="years_experience" class="form-label">Năm kinh nghiệm yêu cầu</label>
+                    <select class="form-select" id="years_experience" name="years_experience" required>
+                        <option value="">-- Chọn kinh nghiệm --</option>
+                        <option value="0">Không yêu cầu kinh nghiệm</option>
+                        <option value="1">1 năm</option>
+                        <option value="2">2 năm</option>
+                        <option value="3">3 năm</option>
+                        <option value="4">4 năm</option>
+                        <option value="5">5 năm trở lên</option>
+                    </select>
+                </div>
+
                 <button type="submit" class="btn btn-primary">Đăng tin</button>
             </form>
         </div>
     </div>
 </div>
 
-<!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
