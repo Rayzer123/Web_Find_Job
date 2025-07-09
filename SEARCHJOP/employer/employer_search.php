@@ -127,7 +127,7 @@
         <img src="https://hoitinhoc.binhdinh.gov.vn/wp-content/uploads/2019/04/image001.png" width="60px"  border-radius="10px"; alt="ưeblogo">
     </div>
     <ul class="menu">
-        <li><a href="employer_jobs">Công việc của tôi</a></li>
+        <li><a href="employer_jobs.php">Công việc của tôi</a></li>
         <li><a href="employer_post_job.php">Đăng Tuyển dụng</a></li>
         <li class="active"><a href="#">Tìm kiếm tài năng</a></li>
         <a href="employer_applicants.php">Thư xin việc đã nhận</a>

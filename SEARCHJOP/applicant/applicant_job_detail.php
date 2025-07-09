@@ -145,7 +145,11 @@ $rs_related = mysqli_query($conn, $sql_related);
                     | Hết hạn: <?= $expiration_date ?>
                 </div>
                 <div class="job-action mt-2">
-                    <a href="applicant_apply.php?job_id=<?= $job['id'] ?>" class="btn btn-primary me-2">Nộp đơn ngay</a>
+                    <form method="post" action="applicant_apply.php">
+                        <input type="hidden" name="job_id" value="<?= $job['id'] ?>">
+                        <input type="hidden" name="job_employer_id" value="<?= $job['employer_id'] ?>">
+                        <button type="submit" name="apply" class="btn btn-primary me-2">Nộp đơn ngay</button>
+                    </form>
                     <a href="applicant_saved.php?job_id=<?= $job['id'] ?>" class="btn btn-outline-secondary">Lưu</a>
                 </div>
             </div>

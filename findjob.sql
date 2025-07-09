@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 08, 2025 at 12:34 PM
+-- Generation Time: Jul 09, 2025 at 02:55 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.0.30
 
@@ -34,8 +34,18 @@ CREATE TABLE `applications` (
   `resume_id` int(11) DEFAULT NULL,
   `cover_letter_id` int(11) DEFAULT NULL,
   `status` varchar(30) DEFAULT 'pending',
-  `applied_at` datetime DEFAULT current_timestamp()
+  `applied_at` datetime DEFAULT current_timestamp(),
+  `cv_path` varchar(55) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `applications`
+--
+
+INSERT INTO `applications` (`id`, `user_id`, `job_id`, `resume_id`, `cover_letter_id`, `status`, `applied_at`, `cv_path`) VALUES
+(2, 4, 1, 1, NULL, 'pending', '2025-07-09 19:45:02', '../Word_file/thu_xin_viec_1752063845.doc'),
+(3, 4, 7, 4, NULL, 'pending', '2025-07-09 19:45:08', '../Word_file/thu_xin_viec_1752063845.doc'),
+(4, 4, 8, 4, NULL, 'pending', '2025-07-09 19:45:18', '../Word_file/thu_xin_viec_1752063845.doc');
 
 -- --------------------------------------------------------
 
@@ -51,6 +61,13 @@ CREATE TABLE `cover_letters` (
   `created_at` datetime DEFAULT current_timestamp(),
   `updated_at` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `cover_letters`
+--
+
+INSERT INTO `cover_letters` (`id`, `user_id`, `title`, `content_path`, `created_at`, `updated_at`) VALUES
+(15, 4, '', '../Word_file/thu_xin_viec_1752065196.doc', '2025-07-09 19:24:05', '2025-07-09 19:46:36');
 
 -- --------------------------------------------------------
 
@@ -79,7 +96,7 @@ CREATE TABLE `employers` (
 INSERT INTO `employers` (`id`, `company_name`, `email`, `password`, `logo`, `phone`, `address`, `website`, `description`, `created_at`, `company_intro`) VALUES
 (1, 'Rayzer', 'pducdddd@gmail.com', '$2y$10$aAtLBXj6fa0j8UYwiRmgKuJnyz22w92WOjvEvHWS3gZD7DcGYdr3.', NULL, NULL, NULL, NULL, NULL, '2025-06-01 20:07:26', NULL),
 (3, 'Phạm Hữu Đức', 'duc4651050062@st.qnu.edu.vn', '$2y$10$EeiZ5cxAw4pdTlbQ1A3gfuXt7LlNlFAz83GQz1pLbJnnOQ9Sv4FQW', NULL, NULL, NULL, NULL, NULL, '2025-06-02 14:00:30', NULL),
-(4, 'XYZ', 'duchieungopt@gmail.com', '$2y$10$Q3J.t/GvJGSp7yNEaiA.n.0Pdw72gneRlY06hYXsTclKxEshRtN9G', NULL, NULL, NULL, NULL, NULL, '2025-07-08 15:29:32', NULL);
+(4, 'XYZ', 'duchieungopt@gmail.com', '$2y$10$B3Q96DMQXjSK.EYVnMCmSeUwJg1LnIzusJJk07VpDsJ7iSM9Hoe7G', 'logo_4_1752056377.jpg', NULL, NULL, NULL, NULL, '2025-07-08 15:29:32', NULL);
 
 -- --------------------------------------------------------
 
@@ -116,7 +133,8 @@ INSERT INTO `jobs` (`id`, `employer_id`, `company_name`, `title`, `description`,
 (4, 4, NULL, 'COde', 'Lập trình', 'Quy Nhơn', '100000000000', NULL, NULL, '2025-07-08 16:31:15', '2025-07-08 16:31:15', 'Thực tập', NULL, NULL, 30, 2),
 (6, 4, 'TH Trua Miu', 'Lập Trình Viên', 'Biết bấm máy tính', 'Quy Nhơn', '100000000000', NULL, NULL, '2025-07-08 16:47:40', '2025-07-08 16:47:40', 'Thực tập', NULL, NULL, 3, 3),
 (7, 4, 'T', 'Lập Trình Viên', 'aaaaaaaaaaaaaaaaa', 'Quy Nhơn', '10000000000', NULL, NULL, '2025-07-08 16:51:16', '2025-07-08 16:51:16', 'Bán thời gian', NULL, NULL, 30, 1),
-(8, 4, 'TAAA', 'Lập Trình Viên', 'AAAAAAAAAAAAAA', 'Quy Nhơn', '500000000000', NULL, NULL, '2025-07-08 17:30:00', '2025-07-08 17:30:00', 'Bán thời gian', NULL, NULL, 10, 3);
+(8, 4, 'TAAA', 'Lập Trình Viên', 'AAAAAAAAAAAAAA', 'Quy Nhơn', '500000000000', NULL, NULL, '2025-07-08 17:30:00', '2025-07-08 17:30:00', 'Bán thời gian', NULL, NULL, 10, 3),
+(9, 4, 'GIAHUNG Technology', 'Game Developer', 'Việc nhẹ lương cao, làm trong không gian thoáng mát, được mát xa mỗi ', 'Campuchia', '10000000000000000000000000000', NULL, NULL, '2025-07-09 17:35:03', '2025-07-09 17:35:03', 'Toàn thời gian', NULL, NULL, 30, 0);
 
 -- --------------------------------------------------------
 
@@ -145,6 +163,14 @@ CREATE TABLE `jobs_saved` (
   `saved_at` datetime DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Dumping data for table `jobs_saved`
+--
+
+INSERT INTO `jobs_saved` (`id`, `user_id`, `job_id`, `saved_at`) VALUES
+(4, 4, 8, '2025-07-09 17:28:30'),
+(6, 4, 1, '2025-07-09 17:28:38');
+
 -- --------------------------------------------------------
 
 --
@@ -167,7 +193,8 @@ CREATE TABLE `resumes` (
 
 INSERT INTO `resumes` (`id`, `user_id`, `users`, `profession`, `experience`, `education`, `language`) VALUES
 (4, 2, 'Pham Huu Duc', 'Kế Toán', '1 năm', 'Đại học', 'N1'),
-(6, 2, 'Pham Huu Duc', 'ABC', '2 năm', 'Đại học', 'N1');
+(6, 2, 'Pham Huu Duc', 'ABC', '2 năm', 'Đại học', 'N1'),
+(9, 4, 'hieu', 'IT', '5', 'Thạc sĩ', 'B3');
 
 -- --------------------------------------------------------
 
@@ -196,7 +223,7 @@ CREATE TABLE `users` (
 INSERT INTO `users` (`id`, `name`, `email`, `password`, `phone`, `gender`, `dob`, `marital_status`, `address`, `created_at`, `avatar`) VALUES
 (2, 'Pham Huu Duc', 'duc4651050062@st.qnu.edu.vn', '$2y$10$EDflrQ0eVxI3BHTeNlG97ONGVq/KSQUu/dSIKckonf8LapFaVxe6u', '0332609031', '', '0000-00-00', 'Độc thân', 'w3rqf5hyw', '2025-06-01 20:49:16', 'avatar_2_1748836938.png'),
 (3, 'Jazz', 'teariam@gmail.com', '$2y$10$qhYB6HK8/bMpNC/vxfa2QOMLgwmqGPqfScp9BFp8na6wLPeX2E.06', NULL, NULL, NULL, NULL, NULL, '2025-06-01 21:49:22', NULL),
-(4, 'hieu', 'duchieungopt@gmail.com', '$2y$10$nYEwgKHx3ACiD6Sib5IJDOFiHxxTXd1EtDfcNADl7PerqI1YqNlNa', NULL, NULL, NULL, NULL, NULL, '2025-07-08 15:25:36', NULL);
+(4, 'hieu', 'duchieungopt@gmail.com', '$2y$10$nYEwgKHx3ACiD6Sib5IJDOFiHxxTXd1EtDfcNADl7PerqI1YqNlNa', NULL, NULL, NULL, NULL, NULL, '2025-07-08 15:25:36', 'avatar_4_1752061215.jpg');
 
 --
 -- Indexes for dumped tables
@@ -267,13 +294,13 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `applications`
 --
 ALTER TABLE `applications`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `cover_letters`
 --
 ALTER TABLE `cover_letters`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `employers`
@@ -285,7 +312,7 @@ ALTER TABLE `employers`
 -- AUTO_INCREMENT for table `jobs`
 --
 ALTER TABLE `jobs`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `jobs_notifications`
@@ -297,13 +324,13 @@ ALTER TABLE `jobs_notifications`
 -- AUTO_INCREMENT for table `jobs_saved`
 --
 ALTER TABLE `jobs_saved`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `resumes`
 --
 ALTER TABLE `resumes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `users`

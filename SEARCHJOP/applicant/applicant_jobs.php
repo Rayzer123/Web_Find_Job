@@ -1,12 +1,17 @@
 <?php
 include '../db_connect.php';
 session_start();
-
-
-
 $keyword = isset($_GET['search']) ? trim($_GET['search']) : '';
 $location = isset($_GET['location']) ? trim($_GET['location']) : '';
-
+//danh sách công việc đã lưu
+$saved_jobs = [];
+if(isset($_SESSION['user_id'])){
+	$user_id = $_SESSION['user_id'];
+	$result = mysqli_query($conn, "SELECT job_id FROM jobs_saved WHERE user_id = $user_id");
+	while($row = mysqli_fetch_assoc($result)){
+		$saved_jobs[] = $row['job_id'];
+	}
+}
 // Chuẩn bị truy vấn SQL với escape để tránh lỗi và bảo mật
 $sql = "SELECT jobs.*, employers.company_name, employers.logo 
         FROM jobs 
@@ -26,6 +31,7 @@ $sql .= "ORDER BY jobs.created_at DESC";
 // Thực hiện truy vấn, kiểm tra lỗi
 $rs = mysqli_query($conn, $sql);
 ?>
+
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -86,7 +92,7 @@ $rs = mysqli_query($conn, $sql);
                     
                     <img src="<?= $logo_file1 ?>" class="job-logo me-3" alt="<?= htmlspecialchars($job['company_name']) ?>">
                 <?php else: ?>
-                    <img src='../logoweb.jpg' class="job-logo me-3" alt="Logo">
+                    <img src="../logoweb.jpg" class="job-logo me-3" alt="Logo">
                 <?php endif; ?>
                 <div class="flex-grow-1">
                     <div class="job-title">
@@ -99,6 +105,13 @@ $rs = mysqli_query($conn, $sql);
                 </div>
                 <div>
                     <a href="applicant_job_detail.php?id=<?= $job['id'] ?>" class="btn btn-outline-primary btn-sm">Xem chi tiết</a>
+					<?php  if(isset($_SESSION['user_id'])):?>
+							<?php if (in_array($job['id'], $saved_jobs)): ?>
+									<button class="btn btn-danger btn-sm unsave-job-btn" data-job-id="<?= $job['id'] ?>">Huỷ lưu</button>
+							<?php else: ?>
+									<button class="btn btn-outline-success btn-sm save-job-btn" data-job-id="<?= $job['id'] ?>">Lưu</button>
+							<?php endif;?>
+					<?php endif;?>
                 </div>
             </div>
         <?php endwhile; ?>
@@ -155,5 +168,37 @@ $rs = mysqli_query($conn, $sql);
     </div>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>//luu
+$(document).on('click', '.save-job-btn', function() {
+    var button = $(this);
+    var jobId = button.data('job-id');
+
+    $.post('save-unsave_Job.php', { job_id: jobId, action: 'save' }, function(response) {
+        if (response === 'saved' || response === 'exists') {
+            button.removeClass('btn-outline-success save-job-btn')
+                  .addClass('btn-danger unsave-job-btn')
+                  .text('Huỷ lưu');
+        } else {
+            alert('Lỗi khi lưu công việc!');
+        }
+    });
+});
+//huy luu
+$(document).on('click', '.unsave-job-btn', function() {
+    var button = $(this);
+    var jobId = button.data('job-id');
+
+    $.post('save-unsave_Job.php', { job_id: jobId, action: 'unsave' }, function(response) {
+        if (response === 'unsaved') {
+            button.removeClass('btn-danger unsave-job-btn')
+                  .addClass('btn-outline-success save-job-btn')
+                  .text('Lưu');
+        } else {
+            alert('Lỗi khi huỷ lưu!');
+        }
+    });
+});
+</script>
 </body>
 </html>

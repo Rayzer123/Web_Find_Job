@@ -2,6 +2,45 @@
 session_start();
 include('../db_connect.php');
 if(!isset($_SESSION['employer_id'])) header('Location: employer_login.php');
+
+if(isset(($_POST['watch']))){
+    $applicant_id = $_POST['applicant_id'];
+    $sql1 = "SELECT content_path FROM cover_letters WHERE user_id = ?";
+    $stmt1 = $conn->prepare($sql1);
+    $stmt1->bind_param("i", $applicant_id);
+    $stmt1->execute();
+    $result1 = $stmt1->get_result();
+
+    if ($row = $result1->fetch_assoc()) {
+        $filePath = $row['content_path'];
+        $filename = basename($filePath);
+        header("Content-Type: application/vnd.ms-word");
+        header("Content-Disposition: attachment; filename=\"$filename\"");
+        header("Content-Length: " . filesize($filePath));
+        ob_clean();
+        flush(); 
+        readfile($filePath);
+        exit;
+    }
+}
+
+if(isset(($_POST['delete1']))){
+    $delete_id = (int)$_POST['applicant_id'];
+
+    $stmt = $conn->prepare("DELETE FROM applications WHERE resume_id = ?");
+    $stmt->bind_param("i", $delete_id);
+
+    $stmt->execute();
+    $stmt->close();
+}
+
+$employer_id = $_SESSION['employer_id'];
+$sql = "select * from applications where resume_id = ?";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("i", $employer_id); 
+$stmt->execute();
+$result = $stmt->get_result();
+
 ?>
 <!DOCTYPE html>
 <html lang="vi">
@@ -101,23 +140,35 @@ if(!isset($_SESSION['employer_id'])) header('Location: employer_login.php');
             <table class="table table-bordered bg-white">
                 <thead>
                     <tr>
+                        
                         <th>Thư xin việc</th>
+                            
+                        
                         <th>Nhận lúc</th>
                         <th>Trạng thái</th>
                         <th>Loại</th>
                         <th>Ghi chú</th>
                         <th>Tin nhắn</th>
                     </tr>
+                    <?php while($cv_id = $result->fetch_assoc()):?>
+                        <tr>
+                            <th>
+                                <div style="display: flex; gap: 10px; align-items: center;">
+                                    <strong>Thư xin việc của bạn</strong>
+                                    <form action="employer_applicants.php" method="post">
+                                        <input type="hidden" name="applicant_id" value="<?=$cv_id['user_id']?>">
+                                        <button type="submit" name="watch"class="btn btn-info btn-sm">Xem</button>
+                                    </form>
+                                    <form action="employer_applicants.php" method="post">
+                                        <input type="hidden" name="applicant_id" value="<?=$cv_id['user_id']?>">
+                                        <button type="submit" name="delete1" class="btn btn-danger btn-sm">Xóa</button>
+                                    </form>
+                                    
+                                </div>
+                            </th>
+                        </tr>
+                    <?php endwhile;?>
                 </thead>
-                <tbody>
-                    <tr>
-                        <td colspan="6" class="table-empty">
-                            <i class="bi bi-file-earmark-text"></i>
-                            <p>Chưa có ứng viên nào ứng tuyển</p>
-                            <a href="employer_search.php" class="btn btn-primary">Tìm ứng viên ngay</a>
-                        </td>
-                    </tr>
-                </tbody>
             </table>
         </div>
     </div>
