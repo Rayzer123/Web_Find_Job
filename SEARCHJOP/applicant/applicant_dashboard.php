@@ -56,7 +56,7 @@ session_start();
                     <li><a class="dropdown-item" href="applicant_notifications.php"><i class="bi bi-bell me-2"></i> Thông báo việc làm</a></li>
                     <li><a class="dropdown-item" href="applicant_account.php"><i class="bi bi-person me-2"></i> Tài khoản</a></li>
                     <li><hr class="dropdown-divider"></li>
-                    <li><a class="dropdown-item text-danger" href="applicant_logout.php"><i class="bi bi-box-arrow-right me-2"></i> Đăng xuất</a></li>
+                    <li><a class="dropdown-item text-danger" href="../index.php"><i class="bi bi-box-arrow-right me-2"></i> Đăng xuất</a></li>
                 </ul>
             </li>
         </ul>

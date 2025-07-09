@@ -4,6 +4,9 @@ session_start();
 // Kết nối CSDL
 include '../db_connect.php'; 
 
+// if(!isset($_SESSION['id'])){
+//     header("Location:../index.php");
+// }
 
 $employer_id = $_SESSION['employer_id'];
 
@@ -106,7 +109,7 @@ $rs_related = mysqli_query($conn, $sql_related);
                     <li><a class="dropdown-item" href="applicant_applied.php"><i class="bi bi-send me-2"></i> Việc đã ứng tuyển</a></li>
                     <li><a class="dropdown-item" href="applicant_notifications.php"><i class="bi bi-bell me-2"></i> Thông báo việc làm</a></li>
                     <li><hr class="dropdown-divider"></li>
-                    <li><a class="dropdown-item text-danger" href="applicant_logout.php"><i class="bi bi-box-arrow-right me-2"></i> Đăng xuất</a></li>
+                    <li><a class="dropdown-item text-danger" href="../index.php"><i class="bi bi-box-arrow-right me-2"></i> Đăng xuất</a></li>
                 </ul>
             </li>
         </ul>

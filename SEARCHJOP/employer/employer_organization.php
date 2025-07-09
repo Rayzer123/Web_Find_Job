@@ -38,10 +38,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $update_query = "UPDATE employers SET 
                      company_name = ?, 
-                     company_description = ?, 
-                     company_address = ?, 
-                     company_phone = ?, 
-                     company_website = ? 
+                     description = ?, 
+                     address = ?, 
+                     phone = ?, 
+                     website = ? 
                      WHERE id = ?";
     $update_stmt = $conn->prepare($update_query);
     $update_stmt->bind_param("sssssi", $company_name, $company_description, $company_address, $company_phone, $company_website, $employer_id);
@@ -159,7 +159,6 @@ $conn->close();
                     <a class="nav-link" href="employer_jobs.php"><i class="bi bi-briefcase"></i> Công việc của tôi</a>
                     <a class="nav-link" href="employer_post_job.php"><i class="bi bi-plus-square"></i> Đăng Tuyển dụng</a>
                     <div class="ps-2 pt-2 pb-1 text-secondary small">Ứng viên của tôi</div>
-                    <a class="nav-link" href="employer_search.php"><i class="bi bi-search"></i> Tìm kiếm tài năng</a>
                     <a class="nav-link" href="employer_applicants.php"><i class="bi bi-envelope"></i> Thư xin việc đã nhận</a>
                     <a class="nav-link" href="employer_saved.php"><i class="bi bi-bookmark"></i> Tài năng đã lưu</a>
                     <a class="nav-link" href="employer_alerts.php"><i class="bi bi-bell"></i> Quản lý tìm kiếm tài năng</a>
@@ -195,22 +194,22 @@ $conn->close();
                         <div class="mb-3">
                             <label for="company_description" class="form-label">Mô tả công ty</label>
                             <textarea class="form-control" id="company_description" name="company_description"
-                                rows="5"><?= htmlspecialchars($organization['company_description'] ?? '') ?></textarea>
+                                rows="5"><?= htmlspecialchars($organization['description'] ?? '') ?></textarea>
                         </div>
                         <div class="mb-3">
                             <label for="company_address" class="form-label">Địa chỉ</label>
                             <input type="text" class="form-control" id="company_address" name="company_address"
-                                value="<?= htmlspecialchars($organization['company_address'] ?? '') ?>">
+                                value="<?= htmlspecialchars($organization['address'] ?? '') ?>">
                         </div>
                         <div class="mb-3">
                             <label for="company_phone" class="form-label">Số điện thoại</label>
                             <input type="text" class="form-control" id="company_phone" name="company_phone"
-                                value="<?= htmlspecialchars($organization['company_phone'] ?? '') ?>">
+                                value="<?= htmlspecialchars($organization['phone'] ?? '') ?>">
                         </div>
                         <div class="mb-3">
                             <label for="company_website" class="form-label">Website</label>
                             <input type="text" class="form-control" id="company_website" name="company_website"
-                                value="<?= htmlspecialchars($organization['company_website'] ?? '') ?>">
+                                value="<?= htmlspecialchars($organization['website'] ?? '') ?>">
                         </div>
                         <button type="submit" class="btn btn-primary">Cập nhật</button>
                     </form>
