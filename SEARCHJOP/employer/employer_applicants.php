@@ -25,7 +25,7 @@ if(isset(($_POST['watch']))){
 }
 
 if(isset(($_POST['delete1']))){
-    $delete_id = (int)$_POST['applicant_id'];
+    $delete_id = $_POST['applicant_id'];
 
     $stmt = $conn->prepare("DELETE FROM applications WHERE resume_id = ?");
     $stmt->bind_param("i", $delete_id);

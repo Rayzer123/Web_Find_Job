@@ -6,15 +6,9 @@ if (!isset($_SESSION['employer_id'])) {
 }
 
 // --- Database Connection (Replace with your credentials) ---
-$host = "localhost";
-$username = "root";
-$password = "";
-$database = "findjob";
-$conn = new mysqli($host, $username, $password, $database);
+include('../db_connect.php');
+session_start();
 
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
 
 $employer_id = $_SESSION['employer_id'];
 

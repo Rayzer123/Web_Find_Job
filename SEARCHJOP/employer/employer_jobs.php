@@ -6,14 +6,7 @@ if (!isset($_SESSION['employer_id'])) {
 }
 
 // Kết nối CSDL
-$host = "localhost";
-$username = "root";
-$password = "";
-$database = "findjob";
-$conn = new mysqli($host, $username, $password, $database);
-if ($conn->connect_error) {
-    die("Kết nối CSDL thất bại: " . $conn->connect_error);
-}
+include('../db_connect.php');
 
 $message = "";
 
